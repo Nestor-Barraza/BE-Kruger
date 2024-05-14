@@ -4,8 +4,6 @@
 import { TsoaRoute, fetchMiddlewares, ExpressTemplateService } from '@tsoa/runtime';
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 import { UserController } from './Users/Users.controller';
-// WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-import { EmployeeController } from './Employees/Employees.controller';
 import type { Request as ExRequest, Response as ExResponse, RequestHandler, Router } from 'express';
 
 
@@ -13,25 +11,12 @@ import type { Request as ExRequest, Response as ExResponse, RequestHandler, Rout
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 
 const models: TsoaRoute.Models = {
-    "mongoose.Types.ObjectId": {
-        "dataType": "refAlias",
-        "type": {"dataType":"string","validators":{}},
-    },
-    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "User": {
         "dataType": "refObject",
         "properties": {
             "username": {"dataType":"string","required":true},
             "password": {"dataType":"string","required":true},
             "role": {"dataType":"union","subSchemas":[{"dataType":"enum","enums":["admin"]},{"dataType":"enum","enums":["employee"]}],"required":true},
-            "employee": {"ref":"mongoose.Types.ObjectId"},
-        },
-        "additionalProperties": false,
-    },
-    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "Employee": {
-        "dataType": "refObject",
-        "properties": {
             "IDNumber": {"dataType":"string","required":true},
             "firstName": {"dataType":"string","required":true},
             "lastName": {"dataType":"string","required":true},
@@ -63,6 +48,7 @@ export function RegisterRoutes(app: Router) {
 
             async function UserController_createUser(request: ExRequest, response: ExResponse, next: any) {
             const args: Record<string, TsoaRoute.ParameterSchema> = {
+                    request: {"in":"request","name":"request","required":true,"dataType":"object"},
                     user: {"in":"body","name":"user","required":true,"ref":"User"},
             };
 
@@ -87,42 +73,13 @@ export function RegisterRoutes(app: Router) {
             }
         });
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-        app.post('/employees',
-            ...(fetchMiddlewares<RequestHandler>(EmployeeController)),
-            ...(fetchMiddlewares<RequestHandler>(EmployeeController.prototype.createEmployee)),
+        app.get('/users/:IDNumber',
+            ...(fetchMiddlewares<RequestHandler>(UserController)),
+            ...(fetchMiddlewares<RequestHandler>(UserController.prototype.getUser)),
 
-            async function EmployeeController_createEmployee(request: ExRequest, response: ExResponse, next: any) {
+            async function UserController_getUser(request: ExRequest, response: ExResponse, next: any) {
             const args: Record<string, TsoaRoute.ParameterSchema> = {
-                    employee: {"in":"body","name":"employee","required":true,"ref":"Employee"},
-            };
-
-            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-
-            let validatedArgs: any[] = [];
-            try {
-                validatedArgs = templateService.getValidatedArgs({ args, request, response });
-
-                const controller = new EmployeeController();
-
-              await templateService.apiHandler({
-                methodName: 'createEmployee',
-                controller,
-                response,
-                next,
-                validatedArgs,
-                successStatus: 201,
-              });
-            } catch (err) {
-                return next(err);
-            }
-        });
-        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-        app.get('/employees/:IDNumber',
-            ...(fetchMiddlewares<RequestHandler>(EmployeeController)),
-            ...(fetchMiddlewares<RequestHandler>(EmployeeController.prototype.getEmployee)),
-
-            async function EmployeeController_getEmployee(request: ExRequest, response: ExResponse, next: any) {
-            const args: Record<string, TsoaRoute.ParameterSchema> = {
+                    request: {"in":"request","name":"request","required":true,"dataType":"object"},
                     IDNumber: {"in":"query","name":"IDNumber","required":true,"dataType":"string"},
             };
 
@@ -132,10 +89,10 @@ export function RegisterRoutes(app: Router) {
             try {
                 validatedArgs = templateService.getValidatedArgs({ args, request, response });
 
-                const controller = new EmployeeController();
+                const controller = new UserController();
 
               await templateService.apiHandler({
-                methodName: 'getEmployee',
+                methodName: 'getUser',
                 controller,
                 response,
                 next,
@@ -147,14 +104,15 @@ export function RegisterRoutes(app: Router) {
             }
         });
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-        app.put('/employees/:IDNumber',
-            ...(fetchMiddlewares<RequestHandler>(EmployeeController)),
-            ...(fetchMiddlewares<RequestHandler>(EmployeeController.prototype.updateEmployee)),
+        app.put('/users/:IDNumber',
+            ...(fetchMiddlewares<RequestHandler>(UserController)),
+            ...(fetchMiddlewares<RequestHandler>(UserController.prototype.updateUser)),
 
-            async function EmployeeController_updateEmployee(request: ExRequest, response: ExResponse, next: any) {
+            async function UserController_updateUser(request: ExRequest, response: ExResponse, next: any) {
             const args: Record<string, TsoaRoute.ParameterSchema> = {
+                    request: {"in":"request","name":"request","required":true,"dataType":"object"},
                     IDNumber: {"in":"query","name":"IDNumber","required":true,"dataType":"string"},
-                    employee: {"in":"body","name":"employee","required":true,"ref":"Employee"},
+                    user: {"in":"body","name":"user","required":true,"ref":"User"},
             };
 
             // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
@@ -163,27 +121,28 @@ export function RegisterRoutes(app: Router) {
             try {
                 validatedArgs = templateService.getValidatedArgs({ args, request, response });
 
-                const controller = new EmployeeController();
+                const controller = new UserController();
 
               await templateService.apiHandler({
-                methodName: 'updateEmployee',
+                methodName: 'updateUser',
                 controller,
                 response,
                 next,
                 validatedArgs,
-                successStatus: 200,
+                successStatus: undefined,
               });
             } catch (err) {
                 return next(err);
             }
         });
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-        app.delete('/employees/:IDNumber',
-            ...(fetchMiddlewares<RequestHandler>(EmployeeController)),
-            ...(fetchMiddlewares<RequestHandler>(EmployeeController.prototype.deleteEmployee)),
+        app.delete('/users/:IDNumber',
+            ...(fetchMiddlewares<RequestHandler>(UserController)),
+            ...(fetchMiddlewares<RequestHandler>(UserController.prototype.deleteUser)),
 
-            async function EmployeeController_deleteEmployee(request: ExRequest, response: ExResponse, next: any) {
+            async function UserController_deleteUser(request: ExRequest, response: ExResponse, next: any) {
             const args: Record<string, TsoaRoute.ParameterSchema> = {
+                    request: {"in":"request","name":"request","required":true,"dataType":"object"},
                     IDNumber: {"in":"query","name":"IDNumber","required":true,"dataType":"string"},
             };
 
@@ -193,27 +152,28 @@ export function RegisterRoutes(app: Router) {
             try {
                 validatedArgs = templateService.getValidatedArgs({ args, request, response });
 
-                const controller = new EmployeeController();
+                const controller = new UserController();
 
               await templateService.apiHandler({
-                methodName: 'deleteEmployee',
+                methodName: 'deleteUser',
                 controller,
                 response,
                 next,
                 validatedArgs,
-                successStatus: 204,
+                successStatus: undefined,
               });
             } catch (err) {
                 return next(err);
             }
         });
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-        app.get('/employees',
-            ...(fetchMiddlewares<RequestHandler>(EmployeeController)),
-            ...(fetchMiddlewares<RequestHandler>(EmployeeController.prototype.getEmployees)),
+        app.get('/users',
+            ...(fetchMiddlewares<RequestHandler>(UserController)),
+            ...(fetchMiddlewares<RequestHandler>(UserController.prototype.getUsers)),
 
-            async function EmployeeController_getEmployees(request: ExRequest, response: ExResponse, next: any) {
+            async function UserController_getUsers(request: ExRequest, response: ExResponse, next: any) {
             const args: Record<string, TsoaRoute.ParameterSchema> = {
+                    request: {"in":"request","name":"request","required":true,"dataType":"object"},
                     vaccinationStatus: {"in":"query","name":"vaccinationStatus","dataType":"boolean"},
                     vaccineType: {"in":"query","name":"vaccineType","dataType":"string"},
                     vaccinationDateFrom: {"in":"query","name":"vaccinationDateFrom","dataType":"datetime"},
@@ -226,10 +186,10 @@ export function RegisterRoutes(app: Router) {
             try {
                 validatedArgs = templateService.getValidatedArgs({ args, request, response });
 
-                const controller = new EmployeeController();
+                const controller = new UserController();
 
               await templateService.apiHandler({
-                methodName: 'getEmployees',
+                methodName: 'getUsers',
                 controller,
                 response,
                 next,

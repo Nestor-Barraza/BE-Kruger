@@ -4,6 +4,9 @@
     "module": "commonjs",
     "resolveJsonModule": true,
     "baseUrl": "src",
+    "lib": [
+      "es2021"
+    ],
     "strict": true,
     "esModuleInterop": true,
     "experimentalDecorators": true,

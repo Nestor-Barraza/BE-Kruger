@@ -1,6 +1,23 @@
 import { UserService } from "./User.services";
-import { Controller, Post, Body, Route, Tags } from "tsoa";
+import {
+  Controller,
+  Get,
+  Post,
+  Put,
+  Delete,
+  Body,
+  Route,
+  Tags,
+  Request,
+  Query,
+} from "tsoa";
 import { User } from "./interface/Users.interface";
+import { Request as ExpressRequest } from "express";
+import { authMiddleware } from "utils/middlewares/session";
+
+interface RequestWithUser extends ExpressRequest {
+  user?: User;
+}
 
 @Route("users")
 @Tags("Users")
@@ -13,7 +30,67 @@ export class UserController extends Controller {
   }
 
   @Post()
-  public async createUser(@Body() user: User): Promise<User> {
-    return await this.userService.createUser(user);
+  public async createUser(
+    @Request() request: RequestWithUser,
+    @Body() user: User
+  ): Promise<User> {
+    if (!request.user) {
+      throw new Error("User not authenticated");
+    }
+    return await this.userService.createUser(user, request.user);
+  }
+
+  @Get("{IDNumber}")
+  public async getUser(
+    @Request() request: RequestWithUser,
+    @Query("IDNumber") IDNumber: string
+  ): Promise<User> {
+    if (!request.user) {
+      throw new Error("User not authenticated");
+    }
+    return await this.userService.getUser(IDNumber, request.user);
+  }
+
+  @Put("{IDNumber}")
+  public async updateUser(
+    @Request() request: RequestWithUser,
+    @Query("IDNumber") IDNumber: string,
+    @Body() user: User
+  ): Promise<User> {
+    if (!request.user) {
+      throw new Error("User not authenticated");
+    }
+    return await this.userService.updateUser(IDNumber, user, request.user);
+  }
+
+  @Delete("{IDNumber}")
+  public async deleteUser(
+    @Request() request: RequestWithUser,
+    @Query("IDNumber") IDNumber: string
+  ): Promise<boolean> {
+    if (!request.user) {
+      throw new Error("User not authenticated");
+    }
+    return await this.userService.deleteUser(IDNumber, request.user);
+  }
+
+  @Get()
+  public async getUsers(
+    @Request() request: RequestWithUser,
+    @Query() vaccinationStatus?: boolean,
+    @Query() vaccineType?: string,
+    @Query() vaccinationDateFrom?: Date,
+    @Query() vaccinationDateTo?: Date
+  ): Promise<User[]> {
+    if (!request.user) {
+      throw new Error("User not authenticated");
+    }
+    return await this.userService.getUsers(
+      request.user,
+      vaccinationStatus,
+      vaccineType,
+      vaccinationDateFrom,
+      vaccinationDateTo
+    );
   }
 }

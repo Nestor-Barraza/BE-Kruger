@@ -7,9 +7,6 @@
 		"requestBodies": {},
 		"responses": {},
 		"schemas": {
-			"mongoose.Types.ObjectId": {
-				"type": "string"
-			},
 			"User": {
 				"properties": {
 					"username": {
@@ -25,20 +22,6 @@
 							"employee"
 						]
 					},
-					"employee": {
-						"$ref": "#/components/schemas/mongoose.Types.ObjectId"
-					}
-				},
-				"required": [
-					"username",
-					"password",
-					"role"
-				],
-				"type": "object",
-				"additionalProperties": false
-			},
-			"Employee": {
-				"properties": {
 					"IDNumber": {
 						"type": "string"
 					},
@@ -77,6 +60,9 @@
 					}
 				},
 				"required": [
+					"username",
+					"password",
+					"role",
 					"IDNumber",
 					"firstName",
 					"lastName",
@@ -129,54 +115,9 @@
 						}
 					}
 				}
-			}
-		},
-		"/employees": {
-			"post": {
-				"operationId": "CreateEmployee",
-				"responses": {
-					"201": {
-						"description": "Created",
-						"content": {
-							"application/json": {
-								"schema": {
-									"$ref": "#/components/schemas/Employee"
-								}
-							}
-						}
-					},
-					"400": {
-						"description": "Bad Request",
-						"content": {
-							"application/json": {
-								"schema": {
-									"type": "string"
-								},
-								"examples": {
-									"Example 1": {}
-								}
-							}
-						}
-					}
-				},
-				"tags": [
-					"Employees"
-				],
-				"security": [],
-				"parameters": [],
-				"requestBody": {
-					"required": true,
-					"content": {
-						"application/json": {
-							"schema": {
-								"$ref": "#/components/schemas/Employee"
-							}
-						}
-					}
-				}
 			},
 			"get": {
-				"operationId": "GetEmployees",
+				"operationId": "GetUsers",
 				"responses": {
 					"200": {
 						"description": "Ok",
@@ -184,7 +125,7 @@
 							"application/json": {
 								"schema": {
 									"items": {
-										"$ref": "#/components/schemas/Employee"
+										"$ref": "#/components/schemas/User"
 									},
 									"type": "array"
 								}
@@ -193,7 +134,7 @@
 					}
 				},
 				"tags": [
-					"Employees"
+					"Users"
 				],
 				"security": [],
 				"parameters": [
@@ -234,36 +175,23 @@
 				]
 			}
 		},
-		"/employees/{IDNumber}": {
+		"/users/{IDNumber}": {
 			"get": {
-				"operationId": "GetEmployee",
+				"operationId": "GetUser",
 				"responses": {
 					"200": {
 						"description": "Ok",
 						"content": {
 							"application/json": {
 								"schema": {
-									"$ref": "#/components/schemas/Employee"
-								}
-							}
-						}
-					},
-					"404": {
-						"description": "Not Found",
-						"content": {
-							"application/json": {
-								"schema": {
-									"type": "string"
-								},
-								"examples": {
-									"Example 1": {}
+									"$ref": "#/components/schemas/User"
 								}
 							}
 						}
 					}
 				},
 				"tags": [
-					"Employees"
+					"Users"
 				],
 				"security": [],
 				"parameters": [
@@ -278,47 +206,21 @@
 				]
 			},
 			"put": {
-				"operationId": "UpdateEmployee",
+				"operationId": "UpdateUser",
 				"responses": {
 					"200": {
-						"description": "OK",
+						"description": "Ok",
 						"content": {
 							"application/json": {
 								"schema": {
-									"$ref": "#/components/schemas/Employee"
-								}
-							}
-						}
-					},
-					"400": {
-						"description": "Bad Request",
-						"content": {
-							"application/json": {
-								"schema": {
-									"type": "string"
-								},
-								"examples": {
-									"Example 1": {}
-								}
-							}
-						}
-					},
-					"404": {
-						"description": "Not Found",
-						"content": {
-							"application/json": {
-								"schema": {
-									"type": "string"
-								},
-								"examples": {
-									"Example 1": {}
+									"$ref": "#/components/schemas/User"
 								}
 							}
 						}
 					}
 				},
 				"tags": [
-					"Employees"
+					"Users"
 				],
 				"security": [],
 				"parameters": [
@@ -336,34 +238,28 @@
 					"content": {
 						"application/json": {
 							"schema": {
-								"$ref": "#/components/schemas/Employee"
+								"$ref": "#/components/schemas/User"
 							}
 						}
 					}
 				}
 			},
 			"delete": {
-				"operationId": "DeleteEmployee",
+				"operationId": "DeleteUser",
 				"responses": {
-					"204": {
-						"description": "No Content"
-					},
-					"404": {
-						"description": "Not Found",
+					"200": {
+						"description": "Ok",
 						"content": {
 							"application/json": {
 								"schema": {
-									"type": "string"
-								},
-								"examples": {
-									"Example 1": {}
+									"type": "boolean"
 								}
 							}
 						}
 					}
 				},
 				"tags": [
-					"Employees"
+					"Users"
 				],
 				"security": [],
 				"parameters": [
