@@ -10,10 +10,10 @@ import {
   Tags,
   Request,
   Query,
+  Security,
 } from "tsoa";
 import { User } from "./interface/Users.interface";
 import { Request as ExpressRequest } from "express";
-import { authMiddleware } from "utils/middlewares/session";
 
 interface RequestWithUser extends ExpressRequest {
   user?: User;
@@ -28,7 +28,7 @@ export class UserController extends Controller {
     super();
     this.userService = new UserService();
   }
-
+  @Security("bearerAuth")
   @Post()
   public async createUser(
     @Request() request: RequestWithUser,
@@ -39,18 +39,21 @@ export class UserController extends Controller {
     }
     return await this.userService.createUser(user, request.user);
   }
-
+  @Security("bearerAuth")
   @Get("{IDNumber}")
   public async getUser(
     @Request() request: RequestWithUser,
     @Query("IDNumber") IDNumber: string
   ): Promise<User> {
+    console.log({ request });
     if (!request.user) {
       throw new Error("User not authenticated");
     }
+    console.log(request.user);
     return await this.userService.getUser(IDNumber, request.user);
   }
 
+  @Security("bearerAuth")
   @Put("{IDNumber}")
   public async updateUser(
     @Request() request: RequestWithUser,
@@ -63,6 +66,7 @@ export class UserController extends Controller {
     return await this.userService.updateUser(IDNumber, user, request.user);
   }
 
+  @Security("bearerAuth")
   @Delete("{IDNumber}")
   public async deleteUser(
     @Request() request: RequestWithUser,
@@ -74,6 +78,7 @@ export class UserController extends Controller {
     return await this.userService.deleteUser(IDNumber, request.user);
   }
 
+  @Security("bearerAuth")
   @Get()
   public async getUsers(
     @Request() request: RequestWithUser,

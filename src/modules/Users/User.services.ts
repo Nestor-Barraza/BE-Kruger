@@ -1,23 +1,27 @@
 import { User } from "./interface/Users.interface";
 import { Service } from "./types";
-import UserModel from "./Users.schema";
 import { roleValidator, validateUser } from "./Users.validations";
+import { UserEntity } from "./Users.entity";
 
 export interface ServiceError extends Error {
   message: string;
 }
 
 export class UserService {
+  private userEntity: UserEntity;
+
+  constructor() {
+    this.userEntity = new UserEntity();
+  }
+
   public async createUser(user: User, currentUser: User): Promise<User> {
     try {
       roleValidator(currentUser, Service.CREATE_USER);
-
       const validationErrors = validateUser(user);
       if (validationErrors.length > 0) {
         throw new Error(`Validation failed: ${validationErrors.join(", ")}`);
       }
-
-      const createdUser = await UserModel.create(user);
+      const createdUser = await this.userEntity.create(user);
       return createdUser;
     } catch (error) {
       throw new Error(
@@ -29,7 +33,19 @@ export class UserService {
   public async getUser(IDNumber: string, currentUser: User): Promise<User> {
     try {
       roleValidator(currentUser, Service.GET_USER);
-      const user = await UserModel.findOne({ IDNumber });
+      const user = await this.userEntity.findByIDNumber(IDNumber);
+      if (!user) {
+        throw new Error("User not found");
+      }
+      return user;
+    } catch (error) {
+      throw new Error(`Failed to get user: ${(error as ServiceError).message}`);
+    }
+  }
+
+  public async getUserByField(field: string, value: string): Promise<User> {
+    try {
+      const user = await this.userEntity.findByField(field, value);
       if (!user) {
         throw new Error("User not found");
       }
@@ -46,15 +62,11 @@ export class UserService {
   ): Promise<User> {
     try {
       roleValidator(currentUser, Service.UPDATE_USER);
-
       const validationErrors = validateUser(user);
       if (validationErrors.length > 0) {
         throw new Error(`Validation failed: ${validationErrors.join(", ")}`);
       }
-
-      const updatedUser = await UserModel.findOneAndUpdate({ IDNumber }, user, {
-        new: true,
-      });
+      const updatedUser = await this.userEntity.update(IDNumber, user);
       if (!updatedUser) {
         throw new Error("User not found");
       }
@@ -72,8 +84,8 @@ export class UserService {
   ): Promise<boolean> {
     try {
       roleValidator(currentUser, Service.DELETE_USER);
-      const result = await UserModel.deleteOne({ IDNumber });
-      return result.deletedCount > 0;
+      const result = await this.userEntity.delete(IDNumber);
+      return result;
     } catch (error) {
       throw new Error(
         `Failed to delete user: ${(error as ServiceError).message}`
@@ -103,7 +115,7 @@ export class UserService {
           $lte: vaccinationDateTo,
         };
       }
-      const users = await UserModel.find(filter);
+      const users = await this.userEntity.find(filter);
       return users;
     } catch (error) {
       throw new Error(
