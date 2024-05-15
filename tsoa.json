@@ -1,8 +1,8 @@
 {
   "entryFile": "src/app.ts",
   "noImplicitAdditionalProperties": "throw-on-extras",
-  "controllerPathGlobs": ["src/modules/**/*Controller.ts"],
-  "authenticationModule": "src/auth.middleware.ts",
+  "controllerPathGlobs": ["src/modules/**//*Controller.ts"],
+  "authenticationModule": "src/middlewares/session.ts",
   "typeFileNameGlobs": ["src/modules/**/*.ts"],
   "spec": {
     "outputDirectory": "src/utils",
@@ -13,15 +13,9 @@
         "name": "Authorization",
         "in": "header"
       }
-    },
-    "security": [
-      {
-        "bearerAuth": []
-      }
-    ]
+    }
   },
   "routes": {
-    "routesDir": "src/routes/",
-    "middleware": "authMiddleware"
+    "routesDir": "src/routes/"
   }
 }
