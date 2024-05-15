@@ -96,6 +96,13 @@
         color: #fffffff1;
         text-align: center;
       }
+      h2{
+        color: #67b7f1;
+        text-align: center;
+      }
+      b{
+        color: #67b7f1;
+      }
 
       .button-container {
         display: flex;
