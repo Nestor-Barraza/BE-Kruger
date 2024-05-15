@@ -1,9 +1,10 @@
 import express, { Application } from "express";
 import "colors";
 import swaggerUi from "swagger-ui-express";
-import { RegisterRoutes } from "./modules/routes";
+import { RegisterRoutes } from "./routes/routes";
 import databaseConnect from "./config/database";
-import { errorHandler } from "./utils/middlewares/errors";
+import { errorHandler } from "./middlewares/errors";
+import { authMiddleware } from "./middlewares/session";
 
 const app: Application = express();
 const port = 3000;
@@ -14,24 +15,12 @@ app.use(express.urlencoded({ extended: true }));
 
 RegisterRoutes(app);
 
-const swaggerSpec = require("../public/swagger.json");
+const swaggerSpec = require("./utils/swagger.json");
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 app.use(errorHandler);
 
-app.use(
-  (
-    err: unknown,
-    req: express.Request,
-    res: express.Response,
-    next: express.NextFunction
-  ) => {
-    console.error(err);
-    res.status(500).json({
-      message: "Internal server error",
-    });
-  }
-);
+app.use(authMiddleware);
 
 app.listen(port, () => {
   const swaggerUrl = `http://localhost:${port}/api-docs`.bgBlue;

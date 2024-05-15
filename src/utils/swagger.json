@@ -317,13 +317,13 @@
 									"password": {
 										"type": "string"
 									},
-									"username": {
+									"email": {
 										"type": "string"
 									}
 								},
 								"required": [
 									"password",
-									"username"
+									"email"
 								],
 								"type": "object"
 							}

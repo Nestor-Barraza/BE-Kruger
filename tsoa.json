@@ -4,7 +4,7 @@
   "controllerPathGlobs": ["src/modules/**/*Controller.ts"],
   "typeFileNameGlobs": ["src/modules/**/*.ts"],
   "spec": {
-    "outputDirectory": "public",
+    "outputDirectory": "src/utils",
     "specVersion": 3,
     "securityDefinitions": {
       "bearerAuth": {
@@ -20,7 +20,7 @@
     ]
   },
   "routes": {
-    "routesDir": "src/modules",
+    "routesDir": "src/routes/",
     "middleware": "authMiddleware"
   }
 }
