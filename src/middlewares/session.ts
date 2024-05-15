@@ -1,10 +1,6 @@
 import { Request, Response, NextFunction } from "express";
-import jwt from "jsonwebtoken";
+import jwt, { VerifyErrors, JwtPayload } from "jsonwebtoken";
 import constants from "../utils/constants";
-
-interface TokenPayload {
-  userId: string;
-}
 
 interface RequestWithUserId extends Request {
   userId?: string;
@@ -28,15 +24,28 @@ export function authMiddleware() {
       return;
     }
 
-    jwt.verify(token, constants.JWT_SECRET, (err: any, decoded: any) => {
-      if (err) {
-        response.status(401).json({ error: "Invalid token" });
-        return;
-      }
+    jwt.verify(
+      token,
+      constants.JWT_SECRET,
+      (err: VerifyErrors | null, decoded: string | JwtPayload | undefined) => {
+        if (err) {
+          if (err.name === "TokenExpiredError") {
+            response.status(401).json({ error: "Token expired" });
+          } else {
+            response.status(401).json({ error: "Invalid token" });
+          }
+          return;
+        }
 
-      const tokenPayload = decoded as TokenPayload;
-      request.userId = tokenPayload.userId;
-      next();
-    });
+        if (
+          typeof decoded === "object" &&
+          decoded !== null &&
+          "userId" in decoded
+        ) {
+          request.userId = decoded.userId;
+        }
+        next();
+      }
+    );
   };
 }

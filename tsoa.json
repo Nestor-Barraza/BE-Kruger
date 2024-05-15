@@ -2,6 +2,7 @@
   "entryFile": "src/app.ts",
   "noImplicitAdditionalProperties": "throw-on-extras",
   "controllerPathGlobs": ["src/modules/**/*Controller.ts"],
+  "authenticationModule": "src/auth.middleware.ts",
   "typeFileNameGlobs": ["src/modules/**/*.ts"],
   "spec": {
     "outputDirectory": "src/utils",
@@ -21,6 +22,7 @@
   },
   "routes": {
     "routesDir": "src/routes/",
-    "middleware": "authMiddleware"
+    "middleware": "authMiddleware",
+    "basePath": "/api"
   }
 }

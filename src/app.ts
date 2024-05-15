@@ -4,21 +4,30 @@ import swaggerUi from "swagger-ui-express";
 import { RegisterRoutes } from "./routes/routes";
 import databaseConnect from "./config/database";
 import { errorHandler } from "./middlewares/errors";
-import { authMiddleware } from "./middlewares/session";
+import * as path from "path";
 
 const app: Application = express();
 const port = process.env.PORT || 3000;
 
 // Middlewares
+app.use(express.static(path.join(__dirname, "utils", "templates")));
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-RegisterRoutes(app);
 
 const swaggerSpec = require("./utils/swagger.json");
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 app.use(errorHandler);
-app.use(authMiddleware);
+
+// Routes
+RegisterRoutes(app);
+
+app.get("/", (req, res) => {
+  res.sendFile("home.html", {
+    root: path.join(__dirname, "utils", "templates"),
+  });
+});
 
 app.listen(port, () => {
   const swaggerUrl = `${process.env.BASE_URL}/api-docs`.bgBlue;

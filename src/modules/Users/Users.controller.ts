@@ -10,9 +10,11 @@ import {
   Tags,
   Request,
   Query,
+  Middlewares,
 } from "tsoa";
 import { User } from "./interface/Users.interface";
 import { Request as ExpressRequest } from "express";
+import { authMiddleware } from "../../middlewares/session";
 
 interface RequestWithUser extends ExpressRequest {
   user?: User;
@@ -20,6 +22,7 @@ interface RequestWithUser extends ExpressRequest {
 
 @Route("users")
 @Tags("Users")
+@Middlewares(authMiddleware())
 export class UserController extends Controller {
   private userService: UserService;
 
