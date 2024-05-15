@@ -4,6 +4,7 @@ import swaggerUi from "swagger-ui-express";
 import { RegisterRoutes } from "./routes/routes";
 import databaseConnect from "./config/database";
 import { errorHandler } from "./middlewares/errors";
+import bodyParser from "body-parser";
 import * as path from "path";
 
 const app: Application = express();
@@ -12,6 +13,9 @@ const port = process.env.PORT || 3000;
 // Middlewares
 app.use(express.static(path.join(__dirname, "utils", "templates")));
 
+app.use(bodyParser.json());
+
+app.use(bodyParser.raw());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 

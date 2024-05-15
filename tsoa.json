@@ -22,7 +22,6 @@
   },
   "routes": {
     "routesDir": "src/routes/",
-    "middleware": "authMiddleware",
-    "basePath": "/api"
+    "middleware": "authMiddleware"
   }
 }

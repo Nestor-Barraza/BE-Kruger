@@ -42,7 +42,7 @@ export class UserController extends Controller {
     return await this.userService.createUser(user, request.user);
   }
 
-  @Get("{IDNumber}")
+  @Get("/get-user/:id-number")
   public async getUser(
     @Request() request: RequestWithUser,
     @Query("IDNumber") IDNumber: string
@@ -54,7 +54,7 @@ export class UserController extends Controller {
     return await this.userService.getUser(IDNumber, request.user);
   }
 
-  @Put("{IDNumber}")
+  @Put("/update-user/:id-number")
   public async updateUser(
     @Request() request: RequestWithUser,
     @Query("IDNumber") IDNumber: string,
@@ -66,7 +66,7 @@ export class UserController extends Controller {
     return await this.userService.updateUser(IDNumber, user, request.user);
   }
 
-  @Delete("{IDNumber}")
+  @Delete("/delete-user/:id-number")
   public async deleteUser(
     @Request() request: RequestWithUser,
     @Query("IDNumber") IDNumber: string

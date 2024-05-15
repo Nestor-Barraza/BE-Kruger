@@ -181,7 +181,7 @@
 				]
 			}
 		},
-		"/users/{IDNumber}": {
+		"/users/get-user/{id-number}": {
 			"get": {
 				"operationId": "GetUser",
 				"responses": {
@@ -210,7 +210,9 @@
 						}
 					}
 				]
-			},
+			}
+		},
+		"/users/update-user/{id-number}": {
 			"put": {
 				"operationId": "UpdateUser",
 				"responses": {
@@ -249,7 +251,9 @@
 						}
 					}
 				}
-			},
+			}
+		},
+		"/users/delete-user/{id-number}": {
 			"delete": {
 				"operationId": "DeleteUser",
 				"responses": {

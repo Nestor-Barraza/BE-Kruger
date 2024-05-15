@@ -21,16 +21,79 @@
         overflow: hidden;
       }
 
+
       .container {
         max-width: 600px;
         margin: 0;
-        background-color: #ffffffcd;
+        background-color: #3f3f3f;
         padding: 20px;
         border-radius: 5px;
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.38);
       }
+
+      .master-div {
+  max-width: 600px;
+  margin: 0;
+  background-color: #0a0909cd;
+  padding: 5px;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  position: relative;
+  color: white;
+  overflow: hidden;
+  --border-radius: 12px;
+  --border-size: 2px;
+  --border-bg: conic-gradient(from 180deg at 50% 50%, #fdfdfd 0deg, #dfdfdf 112.5deg, #f5f5f5 228.75deg, rgba(0, 0, 0, 0.887) 360deg);
+}
+
+.master-div::before {
+  content: "";
+  position: absolute;
+  inset: calc(var(--border-size) * -1);
+  padding: var(--border-size);
+  overflow: hidden;
+  padding: calc(var(--border-size));
+  border-radius: var(--border-radius);
+  display: inline-block;
+  z-index: 0;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  perspective: 1000;
+  transform: translateZ(0);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  z-index: -1;
+  border-radius: calc(var(--border-radius) + var(--border-size));
+}
+
+.master-div::after {
+  content: "";
+  display: block;
+  background: var(--border-bg);
+  box-shadow: 0 0 40px 20px var(--border-bg);
+  width: calc(100% * 1.41421356237);
+  padding-bottom: calc(100% * 1.41421356237);
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 100%;
+  z-index: -2;
+  animation: landing_spin 5s linear infinite;
+}
+
+@keyframes landing_spin {
+  0% {
+    transform: translate(-50%, -50%) rotate(0turn);
+  }
+  100% {
+    transform: translate(-50%, -50%) rotate(1turn);
+  }
+}
       h1 {
-        color: #333;
+        color: #fffffff1;
         text-align: center;
       }
 
@@ -45,14 +108,16 @@
         display: inline-flex;
         align-items: center;
         padding: 10px 20px;
-        background-color: #007bff;
+        background-color: #175065;
+        border: rgba(255, 255, 255, 0.585) 0.5px solid;
         color: #ffffff;
         text-decoration: none;
         border-radius: 5px;
+        transition: 1s;
       }
 
       .button:hover {
-        background-color: #0056b3;
+        background-color: #090909d1;
       }
 
       .button svg {
