@@ -2,7 +2,7 @@ import mongoose, { Document, Schema } from "mongoose";
 import { User } from "./interface/Users.interface";
 import bcrypt from "bcrypt";
 
-export interface UserDocument extends Document, User {}
+export interface UserDocument extends Document<User>, User {}
 
 const UserSchema: Schema = new mongoose.Schema({
   username: { type: String, required: true, unique: true },

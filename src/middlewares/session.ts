@@ -1,51 +1,55 @@
 import { Request, Response, NextFunction } from "express";
-import jwt, { VerifyErrors, JwtPayload } from "jsonwebtoken";
+import jwt, { JwtPayload } from "jsonwebtoken";
 import constants from "../utils/constants";
 
-interface RequestWithUserId extends Request {
-  userId?: string;
+import { User } from "modules/Users/interface/Users.interface";
+import { UserService } from "../modules/Users/User.services";
+
+interface RequestWithUser extends Request {
+  user?: User;
 }
 
 export function authMiddleware() {
-  return function (
-    request: RequestWithUserId,
+  const userService = new UserService();
+
+  return async function (
+    request: RequestWithUser,
     response: Response,
     next: NextFunction
-  ): void {
-    const token = request.headers["authorization"];
-
+  ): Promise<void> {
+    const token = request.header("Authorization");
     if (!token) {
       response.status(401).json({ error: "No token provided" });
       return;
     }
 
-    if (typeof token !== "string") {
-      response.status(401).json({ error: "Invalid token format" });
-      return;
-    }
-
-    jwt.verify(
-      token,
-      constants.JWT_SECRET,
-      (err: VerifyErrors | null, decoded: string | JwtPayload | undefined) => {
-        if (err) {
-          if (err.name === "TokenExpiredError") {
-            response.status(401).json({ error: "Token expired" });
-          } else {
-            response.status(401).json({ error: "Invalid token" });
-          }
-          return;
-        }
-
-        if (
-          typeof decoded === "object" &&
-          decoded !== null &&
-          "userId" in decoded
-        ) {
-          request.userId = decoded.userId;
-        }
-        next();
+    try {
+      const cleanedToken = token.replace("Bearer ", "");
+      const decoded = jwt.verify(
+        cleanedToken,
+        constants.JWT_SECRET
+      ) as JwtPayload;
+      if (
+        typeof decoded === "object" &&
+        decoded !== null &&
+        "IDNumber" in decoded
+      ) {
+        const user = await userService.getUserByField(
+          "IDNumber",
+          decoded.IDNumber
+        );
+        request.user = user;
       }
-    );
+      next();
+    } catch (err) {
+      if (err instanceof jwt.TokenExpiredError) {
+        response.status(401).json({ error: "Token expired" });
+      } else if (err instanceof jwt.JsonWebTokenError) {
+        response.status(401).json({ error: "Invalid token" });
+      } else {
+        console.error("Error:", err);
+        response.status(500).json({ error: "Internal server error" });
+      }
+    }
   };
 }

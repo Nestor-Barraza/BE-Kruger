@@ -181,7 +181,7 @@
 				]
 			}
 		},
-		"/users/get-user/{id-number}": {
+		"/users/get-user": {
 			"get": {
 				"operationId": "GetUser",
 				"responses": {
@@ -203,7 +203,7 @@
 				"parameters": [
 					{
 						"in": "query",
-						"name": "IDNumber",
+						"name": "id-number",
 						"required": true,
 						"schema": {
 							"type": "string"
@@ -212,7 +212,7 @@
 				]
 			}
 		},
-		"/users/update-user/{id-number}": {
+		"/users/update-user": {
 			"put": {
 				"operationId": "UpdateUser",
 				"responses": {
@@ -234,7 +234,7 @@
 				"parameters": [
 					{
 						"in": "query",
-						"name": "IDNumber",
+						"name": "id-number",
 						"required": true,
 						"schema": {
 							"type": "string"
@@ -253,7 +253,7 @@
 				}
 			}
 		},
-		"/users/delete-user/{id-number}": {
+		"/users/delete-user": {
 			"delete": {
 				"operationId": "DeleteUser",
 				"responses": {
@@ -275,7 +275,7 @@
 				"parameters": [
 					{
 						"in": "query",
-						"name": "IDNumber",
+						"name": "id-number",
 						"required": true,
 						"schema": {
 							"type": "string"

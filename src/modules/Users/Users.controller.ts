@@ -42,39 +42,38 @@ export class UserController extends Controller {
     return await this.userService.createUser(user, request.user);
   }
 
-  @Get("/get-user/:id-number")
+  @Get("/get-user")
   public async getUser(
     @Request() request: RequestWithUser,
-    @Query("IDNumber") IDNumber: string
+    @Query("id-number") idNumber: string
   ): Promise<User> {
     if (!request.user) {
       throw new Error("User not authenticated");
     }
-    console.log(request.user);
-    return await this.userService.getUser(IDNumber, request.user);
+    return await this.userService.getUser(idNumber, request.user);
   }
 
-  @Put("/update-user/:id-number")
+  @Put("/update-user")
   public async updateUser(
     @Request() request: RequestWithUser,
-    @Query("IDNumber") IDNumber: string,
+    @Query("id-number") idNumber: string,
     @Body() user: User
   ): Promise<User> {
     if (!request.user) {
       throw new Error("User not authenticated");
     }
-    return await this.userService.updateUser(IDNumber, user, request.user);
+    return await this.userService.updateUser(idNumber, user, request.user);
   }
 
-  @Delete("/delete-user/:id-number")
+  @Delete("/delete-user")
   public async deleteUser(
     @Request() request: RequestWithUser,
-    @Query("IDNumber") IDNumber: string
+    @Query("id-number") idNumber: string
   ): Promise<boolean> {
     if (!request.user) {
       throw new Error("User not authenticated");
     }
-    return await this.userService.deleteUser(IDNumber, request.user);
+    return await this.userService.deleteUser(idNumber, request.user);
   }
 
   @Get()
