@@ -1,4 +1,3 @@
-// auth.service.ts
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { UserService } from "../Users/User.services";
@@ -12,12 +11,12 @@ export class AuthService {
   }
 
   public async login(credentials: {
-    username: string;
+    email: string;
     password: string;
   }): Promise<string> {
     const user = await this.userService.getUserByField(
-      "username",
-      credentials.username
+      "email",
+      credentials.email
     );
 
     if (!user || !(await bcrypt.compare(credentials.password, user.password))) {
