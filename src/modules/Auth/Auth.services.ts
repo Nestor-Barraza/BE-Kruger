@@ -2,7 +2,7 @@
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { UserService } from "../Users/User.services";
-import constants from "utils/constants";
+import constants from "../../utils/constants";
 
 export class AuthService {
   private userService: UserService;

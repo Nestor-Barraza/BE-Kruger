@@ -1,5 +1,5 @@
 import dotenv from "dotenv";
-import { getExpiresInHours, getExpiresInMinutes } from "utils";
+import { getExpiresInHours, getExpiresInMinutes } from "./index";
 
 dotenv.config();
 
