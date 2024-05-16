@@ -34,8 +34,9 @@ Antes de ejecutar el proyecto, debes configurar las variables de entorno. Crea u
 `CLUSTER_URL=<URL_CLUSTER>`
 `JWT_SECRET=<SECRETO_JWT>`
 `JWT_EXPIRES_IN=<EXPIRACION_JWT>`
+`ALLOWED_ORIGINS=<ALLOWED_ORIGINS>`
 
-Reemplaza `<URL_BASE>`, `<URL_CLUSTER>`, `<SECRETO_JWT>` y `<EXPIRACION_JWT>` con los valores adecuados para tu entorno.
+Reemplaza `<URL_BASE>`, `<URL_CLUSTER>`, `<SECRETO_JWT>`, `<ALLOWED_ORIGINS>` y `<EXPIRACION_JWT>` con los valores adecuados para tu entorno.
 
 ## Ejecución del proyecto
 
