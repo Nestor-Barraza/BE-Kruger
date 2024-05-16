@@ -49,3 +49,4 @@ Una vez que hayas completado la instalación y configuración, puedes ejecutar e
 ### Para iniciar el servidor en modo de desarrollo con recarga automática:
 
 `npm run dev`
+
