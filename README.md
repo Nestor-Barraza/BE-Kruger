@@ -16,7 +16,7 @@ Sigue estos pasos para configurar el proyecto en tu entorno local:
 
 ### Clona este repositorio en tu máquina local:
 
-`git clone https://github.com/tu-usuario/backend-kruger-test.git`
+`git clone https://github.com/Nestor-Barraza/backend-kruger-test.git`
 
 ### Navega hasta el directorio del proyecto:
 
