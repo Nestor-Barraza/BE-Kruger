@@ -6,6 +6,7 @@ import databaseConnect from "./config/database";
 import { errorHandler } from "./middlewares/errors";
 import bodyParser from "body-parser";
 import * as path from "path";
+import { corsMiddleware } from "./middlewares/cors";
 
 const app: Application = express();
 const port = process.env.PORT || 3000;
@@ -14,7 +15,7 @@ const port = process.env.PORT || 3000;
 app.use(express.static(path.join(__dirname, "utils", "templates")));
 
 app.use(bodyParser.json());
-
+app.use(corsMiddleware);
 app.use(bodyParser.raw());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
