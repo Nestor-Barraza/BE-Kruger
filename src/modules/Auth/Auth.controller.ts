@@ -15,7 +15,7 @@ export class AuthController extends Controller {
   public async login(
     @Body() credentials: { email: string; password: string }
   ): Promise<{ token: string }> {
-    const token = await this.authService.login(credentials);
+    const { token } = await this.authService.login(credentials);
     return { token };
   }
 }

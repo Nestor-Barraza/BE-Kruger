@@ -1,17 +1,13 @@
 import { Request, Response, NextFunction } from "express";
 import jwt, { JwtPayload } from "jsonwebtoken";
 import constants from "../utils/constants";
-
 import { User } from "modules/Users/interface/Users.interface";
-import { UserService } from "../modules/Users/User.services";
 
 interface RequestWithUser extends Request {
   user?: User;
 }
 
 export function authMiddleware() {
-  const userService = new UserService();
-
   return async function (
     request: RequestWithUser,
     response: Response,
@@ -29,17 +25,15 @@ export function authMiddleware() {
         cleanedToken,
         constants.JWT_SECRET
       ) as JwtPayload;
+
       if (
         typeof decoded === "object" &&
         decoded !== null &&
-        "IDNumber" in decoded
+        "user" in decoded
       ) {
-        const user = await userService.getUserByField(
-          "IDNumber",
-          decoded.IDNumber
-        );
-        request.user = user;
+        request.user = decoded.user as User;
       }
+
       next();
     } catch (err) {
       if (err instanceof jwt.TokenExpiredError) {
