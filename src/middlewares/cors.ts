@@ -1,6 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-
-const allowedOrigins = process.env.ALLOWED_ORIGINS || "*";
+import constants from "../utils/constants";
 
 export const corsMiddleware = (
   req: Request,
@@ -8,10 +7,10 @@ export const corsMiddleware = (
   next: NextFunction
 ) => {
   const origin = req.headers.origin;
-  if (allowedOrigins === "*") {
+  if (constants.ALLOWED_ORIGINS === "*") {
     res.setHeader("Access-Control-Allow-Origin", "*");
   } else {
-    const origins = allowedOrigins.split(",");
+    const origins = constants.ALLOWED_ORIGINS.split(",");
     if (origins.includes(origin as string)) {
       res.setHeader("Access-Control-Allow-Origin", origin as string);
     }
